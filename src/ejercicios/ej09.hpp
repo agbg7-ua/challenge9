@@ -24,13 +24,13 @@ namespace mine {
 struct Pixels {
    // ❂❂ Your code ❂❂
    // constexpr Pixels{} = default;
-   constexpr Pixels() = default; // Fix 1 había puesto Pixels {} = default, es con ()
+   constexpr Pixels() = default; // Fix 1 había puesto Pixels {} = default, es con () (tipos de error al final listados)
    
    // explicit constexpr Pixels(float x) float : n_ { x };
-   explicit constexpr Pixels(float x) : n_ { x } {} // Fix 2 el ; del final y haber puesto float antes del : n_ y faltaba el {} de la función del constructor
+   explicit constexpr Pixels(float x) : n_ { x } {} // Fix 2 el ; del final y haber puesto float antes del : n_ y faltaba el {} de la función del constructor (tipos de error al final listados)
    
    // [[nodiscard]] constexpr float value() { n_; }
-   [[nodiscard]] constexpr float value() const { return n_; } // Fix 3 faltaba el return y el const
+   [[nodiscard]] constexpr float value() const { return n_; } // Fix 3 y 4 faltaba el return y el const (tipos de error al final listados)
    
    [[nodiscard]] constexpr Pixels operator+(Pixels otro) {
       return static_cast<Pixels> (n_ + otro.n_);
@@ -45,7 +45,7 @@ struct Pixels {
    }
 
    // [[nodiscard]] constexpr auto operator<=>(const Pixels &) = default; 
-   [[nodiscard]] constexpr auto operator<=>(const Pixels &) const = default; // Fix 4 faltaba el const de antes del =
+   [[nodiscard]] constexpr auto operator<=>(const Pixels &) const = default; // Fix 5 faltaba el const de antes del = (tipos de error al final listados)
 
 private:
    float n_{};
@@ -53,5 +53,11 @@ private:
 
 } // namespace mine
 
-// Fix general: las funciones no deberían acabar con ;
-// Fix 1: había puesto float : n_ antes del { x }, es s
+
+// Todos los fixes listados:
+// Fix general (S): las funciones no deberían acabar con ;
+// Fix 1 (S) había puesto Pixels {} = default, es con ()
+// Fix 2 (E) haber puesto float antes del : n_ y faltaba el {} de la función del constructor
+// Fix 3 (E)  faltaba el const
+// Fix 4 (F) faltaba el return
+// Fix 5 (E) faltaba el const de antes del =
