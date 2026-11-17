@@ -28,9 +28,10 @@ SceneGame::new_dart(Entity const& guard, Vec2 target) {
    e.ren = {
       .shape = Shape::Stone,
       .color = guard.ren.color
-   }; // FIX F 2: el campo shape precede a color y se deben mantener en ese orden
+   }; // FIX E 2: cambiar orden entre shape y color
 
-   int DART_TICKS = static_cast<int>(displacement.length() / DART_SPEED); // FIX F 3: se usa la longitud y se truncan los ticks
+   int DART_TICKS = static_cast<int>(displacement.length() / DART_SPEED); // FIX S 3: Falta punto y coma
+   // FIX N 4: El calculo no tiene sentido, no puedo dividir un vector por un float y que salga un int
    e.proj = {
       .ticks = DART_TICKS,
       .noise = DART_NOISE
