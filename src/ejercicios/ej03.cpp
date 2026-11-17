@@ -25,7 +25,7 @@ void schedule(GuardComponent& g, Action decided) {
       return;
    }
 
-   if (g.react_in > 0 && g.pending == decided) { // FIX F 1: react_in -> g.react_in
+   if (g.react_in > 0 && g.pending == decided) { // FIX F 1: react_in -> g.react_in (se me ha escapado el objeto)
       return;
    }
 
