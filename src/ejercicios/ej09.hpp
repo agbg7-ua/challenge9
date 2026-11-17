@@ -23,9 +23,35 @@ namespace mine {
 // only added to Pixels
 struct Pixels {
    // ❂❂ Your code ❂❂
+   // constexpr Pixels{} = default;
+   constexpr Pixels() = default; // Fix 1 había puesto Pixels {} = default, es con ()
+   
+   // explicit constexpr Pixels(float x) float : n_ { x };
+   explicit constexpr Pixels(float x) : n_ { x } {} // Fix 2 el ; del final y haber puesto float antes del : n_ y faltaba el {} de la función del constructor
+   
+   // [[nodiscard]] constexpr float value() { n_; }
+   [[nodiscard]] constexpr float value() const { return n_; } // Fix 3 faltaba el return y el const
+   
+   [[nodiscard]] constexpr Pixels operator+(Pixels otro) {
+      return static_cast<Pixels> (n_ + otro.n_);
+   }
+   
+   [[nodiscard]] constexpr Pixels operator- (Pixels otro) {
+      return static_cast<Pixels>(n_ - otro.n_);
+   }
+
+   [[nodiscard]] constexpr Pixels operator*(float x) {
+      return static_cast<Pixels>(n_*x);
+   }
+
+   // [[nodiscard]] constexpr auto operator<=>(const Pixels &) = default; 
+   [[nodiscard]] constexpr auto operator<=>(const Pixels &) const = default; // Fix 4 faltaba el const de antes del =
 
 private:
    float n_{};
 };
 
 } // namespace mine
+
+// Fix general: las funciones no deberían acabar con ;
+// Fix 1: había puesto float : n_ antes del { x }, es s

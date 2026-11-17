@@ -18,10 +18,22 @@
 Entity&
 EntityManager::new_entity(CmpMask cmp) {
    // ❂❂ Your code ❂❂ (1)
+   for(std::size_t i=entities_.size()-1; i>= 0; i--) {
+      Entity & e = entities_[i];
+      if(e.cmp.empty()) {
+         e = Entity();
+         e.cmp = cmp;
+         return e;
+      }
+   }
+   std::println(stderr, "Aumenta el límite de entidades, no quedan");
+   std::terminate();
+
    return entities_[0];
 }
 
 void
 EntityManager::destroy_entity(Entity& e) {
    // ❂❂ Your code ❂❂ (2)
+   e = Entity();
 }
