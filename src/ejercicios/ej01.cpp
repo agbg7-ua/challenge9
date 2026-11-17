@@ -15,6 +15,13 @@
 
 bool
 SceneGame::sees(Entity const& guard, Vec2 target) const {
-   // ❂❂ Your code ❂❂
-   return false;
+   GuardComponent const& g{guard.guard};
+   Vec2 const to{target - guard.phy.pos}; // FIX E1: Poner g.phy.pos en vez de guard.phy.pos, ya que guard es un Entity y no tiene phy directamente.
+   float const dist{to.length()};
+   float const sight{static_cast<float>(g.traits.sight)};
+   float const c{dist < 1.0f ? 1.0f : to.normalized().dot(g.facing)};
+   float const cone{alarm_ <= 0 ? g.traits.cone : 2.0f * g.traits.cone};
+   bool const ahead{c >= half_cone_cos(cone)};
+   return dist <= sight && ahead && line_of_sight(guard.phy.pos, target); // FIX F1: Faltó la comprobación de si está en la línea de visión.
+    // FIX E2: Poner g.phy.pos en vez de guard.phy.pos, ya que guard es un Entity y no tiene phy directamente.
 }
