@@ -17,12 +17,12 @@ Entity const*
 SceneGame::nearest_chaser(Entity const& guard) const {
    Entity const* best{nullptr};
    float best_d2{};
-   EM_.for_each([&](Entity const& mate) {
+   EM_.for_each([&](Entity const& mate) {// FIX S1: EM está definido como EM_.
       GuardComponent const& m{mate.guard}; 
       if(&m == &guard.guard) {return;}; // FIX E1: Faltaba elegir el componente guard del guard inicial.
       if(m.action!=Action::Chase || m.memory <= 0) {return;};// FIX S2: El diferente (!) va con el = lo puse sin querer al inicio. // FIX E2: Para salir astaba con que una de las dos condiciones se diese y entendí que tenían que cumplirse las dos.
       Vec2 const to{guard.phy.pos - mate.phy.pos}; // FIX E3: Para poder acceder a la posición se usa mate no m.
-      float const dist{to.length2()};// FIX S1: Faltaba el 2 en length2().
+      float const dist{to.length2()};// FIX S2: Faltaba el 2 en length2().
       if (dist > CALL_DIST* CALL_DIST){return;}
       if(!best || best_d2 > dist) {
          best = &mate; // FIX E4: Se devuelve mate como entidad no como tipo guard.
