@@ -17,8 +17,22 @@
 void
 SceneGame::new_dart(Entity const& guard, Vec2 target) {
    Entity& e = EM_.new_entity(CMP_RENDER|CMP_PHYSICS|CMP_PROJECTILE);
-   e.phy = {.pos=guard.phy.pos, .vel = DART_SPEED};
-   e.ren = {.color = guard.ren.color, .shape=Shape::Stone}
-   int DART_TICKS = (target - guard.phy.pos)/DART_SPEED;
-   e.proj = {.noise = DART_NOISE, .ticks = DART_TICKS};
+
+   Vec2 displacement { target - guard.phy.pos };
+
+   e.phy = {
+      .pos = guard.phy.pos,
+      .vel = displacement.normalized() * DART_SPEED
+   }; // FIX F 1: la velocidad debe ser el desplazamiento normalizado y no un escalar
+
+   e.ren = {
+      .shape = Shape::Stone,
+      .color = guard.ren.color
+   }; // FIX F 2: el campo shape precede a color y se deben mantener en ese orden
+
+   int DART_TICKS = static_cast<int>(displacement.length() / DART_SPEED); // FIX F 3: se usa la longitud y se truncan los ticks
+   e.proj = {
+      .ticks = DART_TICKS,
+      .noise = DART_NOISE
+   };
 }
