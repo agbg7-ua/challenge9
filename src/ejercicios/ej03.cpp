@@ -14,6 +14,21 @@
 
 void schedule(GuardComponent& g, Action decided) {
    // ❂❂ Your code ❂❂
+   if (decided == g.action) {
+      g.react_in = 0;
+      return;
+   }
+
+   if (decided == Action::Patrol) {
+      g.action = Action::Patrol;
+      g.react_in = 0;
+      return;
+   }
+
+   if (g.react_in > 0 && g.pending == decided) { // FIX F 1: react_in -> g.react_in
+      return;
+   }
+
    g.pending  = decided;
    g.react_in = std::max(1, g.traits.react);
 }
