@@ -16,5 +16,9 @@
 
 void
 SceneGame::new_dart(Entity const& guard, Vec2 target) {
-   // ❂❂ Your code ❂❂
+   Entity& e = EM_.new_entity(CMP_RENDER|CMP_PHYSICS|CMP_PROJECTILE);
+   e.phy = {.pos=guard.phy.pos, .vel = DART_SPEED};
+   e.ren = {.color = guard.ren.color, .shape=Shape::Stone}
+   int DART_TICKS = (target - guard.phy.pos)/DART_SPEED;
+   e.proj = {.noise = DART_NOISE, .ticks = DART_TICKS};
 }

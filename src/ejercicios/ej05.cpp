@@ -18,7 +18,16 @@ SceneGame::investigate(Entity& guard) {
    GuardComponent& g{ guard.guard };
    if (!g.has_clue) {
       guard.phy.vel = {};
-   // ❂❂ Your code ❂❂
+   }else if(g.search_for > 0){
+      guard.phy.pos = {};
+      g.facing = turned(g.facing, TURN_STEP);
+      g.search_for -= 1;
+      if(g.search_for == 0){g.has_clue = false;}
+   }else if((g.clue - guard.phy.pos).length() <= ARRIVE_DIST){
+      if(alarm_>0){
+         g.has_clue = false;
+         guard.phy.vel = {};
+      } else {g.search_for = SEARCH_TICKS;}
    } else {
       go_to(guard, g.clue, (alarm_ > 0 ? RUN : HURRY) * g.traits.walk);
    }
