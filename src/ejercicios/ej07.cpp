@@ -19,10 +19,10 @@ void level_rows(Node const& n, TreePath const& path, std::size_t level
                       && path.steps[level].node == n.id() };
    // ❂❂ Your code ❂❂
    bool const leaf {!n.yes()};                                 // FIX S(1), en vez de () era {} para inicializar
-   bool const folded {!leaf && level == max_level};            // FIX F(2), faltaba crear folded para despues utilizarlo.
-   rows.push_back({.node = &n, .branch = branch, .level = level, .on_way = on_way, .folded = folded}); // FIX E(3), faltan llaves y .folded no era correcto.
-   if(leaf || folded){ return; }                               // FIX E(4), la condicion no era la correcta
-   bool const answer { on_way && path.steps[level].answer };   // FIX F(5), faltaba preguntar si está folded
+   bool const folded {!leaf && level == max_level};            // FIX F(1), faltaba crear folded para despues utilizarlo.
+   rows.push_back({.node = &n, .branch = branch, .level = level, .on_way = on_way, .folded = folded}); // FIX E(1), faltan llaves y .folded no era correcto.
+   if(leaf || folded){ return; }                               // FIX E(2), la condicion no era la correcta
+   bool const answer { on_way && path.steps[level].answer };   // FIX F(2), faltaba preguntar si está folded
    level_rows(*n.yes(), path, level+1, "sí", answer, max_level, rows);
    level_rows(*n.no(), path, level+1, "no", on_way && !answer, max_level, rows);
 }
